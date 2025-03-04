@@ -74,8 +74,8 @@ pip install flask flask-cors paramiko -i https://pypi.tuna.tsinghua.edu.cn/simpl
    **格式示例：**
    ```json
    {
-       "title": "SERVER_76",
-       "ip": "123.123.123.76",
+       "title": "10.1.16.216",
+       "ip": "10.1.16.216",
        "port": 22,
        "username": "rzp",
        "password": "rzp",

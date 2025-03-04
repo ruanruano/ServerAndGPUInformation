@@ -1,0 +1,183 @@
+[
+    {
+        "title": "212 教工路",
+        "ip": "10.1.16.212",
+        "port": 22,
+        "username": "zzw",
+        "key_filename": "/media/disk2/rzp/server/id_rsa",
+        "network_interface_name": "eno1",
+        "storage_list": [
+            "/dev/sda",
+            "/dev/sdb"
+        ]
+    },
+    {
+        "title": "216 教工路",
+        "ip": "10.1.16.216",
+        "port": 22,
+        "username": "zzw",
+        "key_filename": "/media/disk2/rzp/server/id_rsa",
+        "network_interface_name": "eno1",
+        "storage_list": [
+            "/dev/sda"
+        ]
+    },
+    {
+        "title": "66 检修",
+        "ip": "10.1.16.66",
+        "port": 22,
+        "username": "zzw",
+        "key_filename": "/media/disk2/rzp/server/id_rsa"
+    },
+    {
+        "title": "67 教工路",
+        "ip": "10.1.16.67",
+        "port": 22,
+        "username": "zzw",
+        "key_filename": "/media/disk2/rzp/server/id_rsa",
+        "network_interface_name": "eno1",
+        "storage_list": [
+            "/dev/sda",
+            "/dev/sdb",
+            "/dev/sdc"
+        ]
+    },
+    {
+        "title": "219 教工路",
+        "ip": "10.1.16.219",
+        "port": 22,
+        "username": "zzw",
+        "key_filename": "/media/disk2/rzp/server/id_rsa",
+        "network_interface_name": "eno1",
+        "storage_list": [
+            "/dev/sda",
+            "/dev/sdb"
+        ]
+    },
+    {
+        "title": "208 教工路",
+        "ip": "10.1.16.208",
+        "port": 22,
+        "username": "zzw",
+        "key_filename": "/media/disk2/rzp/server/id_rsa",
+        "network_interface_name": "enp6s0",
+        "storage_list": [
+            "/dev/sda",
+            "/dev/sdb"
+        ]
+    },
+    {
+        "title": "220 教工路",
+        "ip": "10.1.16.220",
+        "port": 22,
+        "username": "rzp",
+        "key_filename": "/media/disk2/rzp/server/id_rsa_rzp",
+        "network_interface_name": "eno1",
+        "storage_list": [
+            "/dev/sda",
+            "/dev/sdb"
+        ]
+    },
+    {
+        "title": "78 教工路",
+        "ip": "10.1.16.78",
+        "port": 22,
+        "username": "zzw",
+        "key_filename": "/media/disk2/rzp/server/id_rsa",
+        "storage_list": [
+            "/dev/sda",
+            "/dev/sdb"
+        ]
+    },
+    {
+        "title": "204 教工路",
+        "ip": "10.1.16.204",
+        "port": 22,
+        "username": "rzp",
+        "key_filename": "/media/disk2/rzp/server/id_rsa_rzp",
+        "network_interface_name": "enp4s0",
+        "storage_list": [
+            "/dev/sdb",
+            "/dev/sde",
+            "/dev/sdd"
+        ]
+    },
+    {
+        "title": "210 教工路",
+        "ip": "10.1.16.210",
+        "port": 22,
+        "username": "rzp",
+        "key_filename": "/media/disk2/rzp/server/id_rsa_rzp",
+        "network_interface_name": "eno1",
+        "storage_list": [
+            "/dev/sda",
+            "/dev/sdb"
+        ]
+    },
+    {
+        "title": "73 教工路",
+        "ip": "10.1.16.73",
+        "port": 22,
+        "username": "rzp",
+        "key_filename": "/media/disk2/rzp/server/id_rsa_rzp",
+        "storage_list": [
+            "/dev/sdc",
+            "/dev/sdd",
+            "/dev/sde"
+        ]
+    },
+    {
+        "title": "214 教工路",
+        "ip": "10.1.16.214",
+        "port": 22,
+        "username": "rzp",
+        "key_filename": "/media/disk2/rzp/server/id_rsa_rzp",
+        "network_interface_name": "eno1",
+        "storage_list": [
+            "/dev/sda"
+        ]
+    },
+    {
+        "title": "224 教工路",
+        "ip": "10.1.16.224",
+        "port": 22,
+        "username": "rzp",
+        "key_filename": "/media/disk2/rzp/server/id_rsa_rzp",
+        "storage_list": [
+            "/dev/sdb"
+        ]
+    },
+    {
+        "title": "227 教工路",
+        "ip": "10.1.16.227",
+        "port": 22,
+        "username": "rzp",
+        "key_filename": "/media/disk2/rzp/server/id_rsa_rzp",
+        "network_interface_name": "enp65s0f0",
+        "storage_list": [
+            "/dev/sda"
+        ]
+    },
+    {
+        "title": "226 教工路",
+        "ip": "10.1.16.226",
+        "port": 22,
+        "username": "rzp",
+        "key_filename": "/media/disk2/rzp/server/id_rsa_rzp",
+        "network_interface_name": "enp65s0f0",
+        "storage_list": [
+            "/dev/sda"
+        ]
+    },
+    {
+        "title": "228 教工路",
+        "ip": "10.1.16.228",
+        "port": 22,
+        "username": "rzp",
+        "key_filename": "/media/disk2/rzp/server/id_rsa_rzp",
+        "network_interface_name": "enp65s0f0",
+        "storage_list": [
+            "/dev/sda"
+        ]
+    }
+]

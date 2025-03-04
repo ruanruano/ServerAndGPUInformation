@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server and GPU Information</title>
+    <style>
+
+        input[type="checkbox"]:hover + label {
+            color: #2980b9;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"]:checked + label {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .card {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .server-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 24px; /* 调整字体大小 */
+            background-color: black; /* 背景色设为黑色 */
+            color: white; /* 文字颜色设为白色 */
+            padding: 10px; /* 增加内边距使其更美观 */
+            border-radius: 5px; /* 可选：增加圆角效果 */
+        }
+        .gpu-info {
+            margin-top: 10px;
+        }
+
+        /* 头部样式 */
+        .head_contrainer{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            height: 90px;
+            align-items: center;
+        }
+        .head_contrainer .checkboxes{
+            display: flex;
+            align-items: center;
+        }
+        .gpu-info {
+            border: 1px solid #ccc;  /* 边框 */
+            border-radius: 8px;  /* 圆角 */
+            padding: 10px;  /* 内边距 */
+            margin-bottom: 15px;  /* 下边距 */
+            background-color: #f9f9f9;  /* 背景颜色 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* 阴影 */
+        }
+
+        .user-info {
+            margin-top: 10px;  /* 上边距 */
+            font-size: 14px;  /* 字体大小 */
+            color: #555;  /* 字体颜色 */
+        }
+
+        .user-item {
+            color: #007bff;  /* 用户名颜色 */
+            font-weight: bold;  /* 加粗 */
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* 半透明黑色背景 */
+            color: white; /* 白色字体 */
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px; /* 合适的字体大小 */
+            font-family: Arial, sans-serif;
+            letter-spacing: 1px; /* 字母间距增加，增强美观 */
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+        }
+
+        /* 固定div在右侧中间，竖向排列复选框 */
+        .checkboxes {
+            position: fixed; 
+            right: 20px; /* 距离页面右边的距离 */
+            top: 50%; /* 定位在页面的50%处 */
+            transform: translateY(-50%); /* 垂直居中 */
+            
+            background-color: #f9f9f9;
+            padding: 20px; /* 调整padding，让div不会显得太大 */
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            
+            font-size: 18px;
+            display: flex;
+            flex-direction: column; /* 竖直排列子元素 */
+            gap: 15px; /* 控制复选框之间的间距 */
+            width: auto; /* 自动根据内容调整宽度 */
+            max-width: 250px; /* 设置最大宽度，防止内容过宽 */
+        }
+
+        /* 美化每个复选框 */
+        .sample {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* 确保复选框和标签左对齐 */
+        }
+
+        /* 调整复选框与标签的间距 */
+        .sample input {
+            margin-right: 10px;
+            transform: scale(1.5); /* 放大复选框 */
+        }
+
+        /* 标签的样式 */
+        .sample label {
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px;
+            color: #34495e;
+            white-space: nowrap; /* 防止标签换行 */
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="head_contrainer">
+        <div style="background-color: #f5f5f5; border-radius: 8px; padding: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <h1 style="font-family: 'Roboto', sans-serif; color: #2c3e50; font-size: 28px; margin-bottom: 10px;">可视媒体与大数据实验室</h1>
+            <p id="time" style="font-family: 'Open Sans', sans-serif; color: #7f8c8d; font-size: 18px; margin-top: 0;"></p>
+        </div>
+
+        <div class="checkboxes">
+            <div class="sample">
+                <input type="checkbox" id="toggle_network" checked onchange="updateDisplay()">
+                <label for="toggle_network">网络</label>
+            </div>
+            <div class="sample">
+                <input type="checkbox" id="toggle_memory" checked onchange="updateDisplay()">
+                <label for="toggle_memory">内存</label>
+            </div>
+            <div class="sample">
+                <input type="checkbox" id="toggle_storage" checked onchange="updateDisplay()">
+                <label for="toggle_storage">存储</label>
+            </div>
+            <div class="sample">
+                <input type="checkbox" id="toggle_gpus" checked onchange="updateDisplay()">
+                <label for="toggle_gpus">显卡</label>
+            </div>
+        </div>
+        
+    </div>
+    <div id="server-data"></div>
+
+    <div class="footer">
+        有问题请联系WX 19106743919
+    </div>
+
+    <script>
+        let lastData = null;
+
+        // 请求服务器获取GPus数据
+        function fetchData() {
+            fetch('http://10.1.16.212:15002/all_data')
+                // 获取服务器和显卡数据
+                .then(response => response.json())  // 解析 JSON 响应
+                .then(data => {
+                    // 处理 JSON 数据
+                    // console.log(data);
+                    displayServerData(data); // 调用显示数据的函数
+                })
+                .catch(error => {
+                    // console.error('Error fetching data:', error);
+                    displayError(error + " （多半是没有正确连接服务器端，可能是没开、网络错误）");
+                });
+        }
+
+        function displayError(err_info){
+            let serverDataContainer = document.getElementById('server-data');
+            serverDataContainer.innerHTML = ''; // 清空容器
+
+            let errDiv = document.createElement('div');
+            errDiv.classList.add('error-info');
+            errDiv.innerHTML = err_info;
+            serverDataContainer.appendChild(errDiv);
+        }
+
+        function parse_data_unit(num, fixedLen=2){
+            if (num < 1024){
+                return num.toFixed(fixedLen) + " KB";
+            }
+
+            num /= 1024;
+            if (num < 1024){
+                return num.toFixed(fixedLen) + " MB";
+            }
+
+            num /= 1024;
+            if (num < 1024){
+                return num.toFixed(fixedLen) + " GB";
+            }
+
+            num /= 1024;
+            if (num < 1024){
+                return num.toFixed(fixedLen) + " TB";
+            }
+        }
+
+        function add_bar(serverCard){
+            let bar = document.createElement('hr');
+            serverCard.appendChild(bar);
+        }
+
+        function updateDisplay(){
+            if (lastData != null){
+                displayServerData(lastData);
+            }
+        }
+
+        // 页面绑定数据
+        function displayServerData(data) {
+            lastData = data;
+            // 绘制 -------------------
+            let serverDataContainer = document.getElementById('server-data');
+            serverDataContainer.innerHTML = ''; // 清空容器
+
+            let timeStr = data['time']
+            let serverData = data['server_data']
+
+            let timeDiv = document.getElementById('time')
+            timeDiv.textContent = "更新时间为：" + timeStr
+
+            let greenDot = '<span style="color: green;"> 空闲</span>';
+            let yellowDot = '<span style="color: orange;"> 占用</span>';
+            let redDot = '<span style="color: red;"> 占用</span>';
+
+            // <div class="test">这是一段测试文本</div>
+
+            for (let key in serverData){
+                let serverCard = document.createElement('div');
+                serverCard.classList.add('card');
+
+                // 标题
+                let serverName = document.createElement('div');
+                serverName.classList.add('server-name');
+                let updateFlag = serverData[key].updated ? '' : ' - Not updated -';
+                serverName.textContent = key + updateFlag;
+                serverCard.appendChild(serverName);
+
+                // 网速
+                if (document.getElementById('toggle_network').checked && 'network_info' in serverData[key]){
+                    let networkInfo = document.createElement('div');
+                    networkInfo.classList.add('network-info');
+
+                    let inNum = serverData[key].network_info.in;
+                    let outNum = serverData[key].network_info.out;
+                    inNum = parse_data_unit(inNum)
+                    outNum = parse_data_unit(outNum)
+
+                    networkInfo.innerHTML += "<strong> 网络 : </strong> in: " + inNum + "/s, out: " + outNum + "/s";
+
+                    serverCard.appendChild(networkInfo);
+                    // 分割线
+                    add_bar(serverCard);
+                }
+
+                // 内存
+                if (document.getElementById('toggle_memory').checked && 'memory_info' in serverData[key]){
+                    let memoryInfo = document.createElement('div');
+                    memoryInfo.classList.add('memory-info');
+
+                    let totalNum = serverData[key].memory_info.total
+                    let usedNum = serverData[key].memory_info.used
+                    let totalMem = parse_data_unit(totalNum);
+                    let usedMem = parse_data_unit(usedNum);
+                    let tmpColor = "green";
+                    if (usedNum / totalNum > 0.8)
+                        tmpColor = "red";
+                    else if (usedNum / totalNum > 0.6)
+                        tmpColor = "orange";
+
+                    memoryInfo.innerHTML += "<strong> 内存 : </strong> <span style=\"color: " + tmpColor + ";\">" + usedMem + " / " + totalMem + "</span><br>";
+
+                    serverCard.appendChild(memoryInfo);
+                    // 分割线
+                    add_bar(serverCard);
+                }
+
+                // 存储空间
+                if (document.getElementById('toggle_storage').checked && 'storage_info_list' in serverData[key]){
+                    let storageInfo = document.createElement('div');
+                    storageInfo.classList.add('storage-info');
+
+                    for (let i = 0; i < serverData[key].storage_info_list.length; i++) {
+                        let targetPath = serverData[key].storage_info_list[i].path;
+                        let totalNum = serverData[key].storage_info_list[i].total
+                        let availableNum = serverData[key].storage_info_list[i].available
+                        let totalStorage = parse_data_unit(totalNum);
+                        let availableStorage = parse_data_unit(totalNum - availableNum);
+                        let tmpColor = "green";
+                        if (availableNum / totalNum < 0.1)
+                            tmpColor = "red";
+                        else if (availableNum / totalNum < 0.3)
+                            tmpColor = "orange";
+                        storageInfo.innerHTML += '<strong>' + targetPath + " :</strong> <span style=\"color: " + tmpColor
+                                                    + ";\">" + availableStorage + " / " + totalStorage + "</span><br>";
+                    }
+
+                    serverCard.appendChild(storageInfo);
+                    // 分割线
+                    add_bar(serverCard);
+                }
+
+                // gpu
+                // if (document.getElementById('toggle_gpus').checked && 'gpu_info_list' in serverData[key]){
+                //     serverData[key].gpu_info_list.forEach(function(gpu){
+                //         let gpuInfo = document.createElement('div');
+                //         gpuInfo.classList.add('gpu-info');
+                //         let colorDot = greenDot;
+                //         if (gpu.used_mem < 1000 && gpu.util_gpu < 20){
+                //             colorDot = greenDot;
+                //         }
+                //         else if (gpu.util_mem < 50){
+                //             colorDot = yellowDot;
+                //         }else{
+                //             colorDot = redDot;
+                //         }
+                //         gpuInfo.innerHTML = '<strong>' + gpu.idx + ' - ' + gpu.gpu_name + colorDot + '</strong><br>'
+                //                             + 'Temperature: ' + gpu.temperature + '°C<br>'
+                //                             + 'Memory: ' + gpu.used_mem + ' / ' + gpu.total_mem + " MB" + '<br>'
+                //                             + 'Utilization: ' + gpu.util_gpu + '%';
+                //         serverCard.appendChild(gpuInfo);
+                //     });
+                //     // 分割线
+                //     add_bar(serverCard);
+                // }
+
+                // GPU信息部分
+                // GPU信息部分
+                if (document.getElementById('toggle_gpus').checked && 'gpu_info_list' in serverData[key]) {
+                    serverData[key].gpu_info_list.forEach(function(gpu) {
+                        let gpuInfo = document.createElement('div');
+                        gpuInfo.classList.add('gpu-info');
+                        
+                        let colorDot = greenDot;
+                        if (gpu.used_mem < 1000 && gpu.util_gpu < 20) {
+                            colorDot = greenDot;
+                        } else if (gpu.util_mem < 50) {
+                            colorDot = yellowDot;
+                        } else {
+                            colorDot = redDot;
+                        }
+
+                        gpuInfo.innerHTML = '<strong>' + gpu.idx + ' - ' + gpu.gpu_name + colorDot + '</strong><br>'
+                                            + 'Temperature: ' + gpu.temperature + '°C<br>'
+                                            + 'Memory: ' + gpu.used_mem + ' / ' + gpu.total_mem + " MB" + '<br>'
+                                            + 'Utilization: ' + gpu.util_gpu + '%';
+
+                        // 添加用户使用信息
+                        if ('users' in gpu) {  // 检查是否有用户信息
+                            let userInfo = document.createElement('div');
+                            userInfo.classList.add('user-info');
+                            userInfo.innerHTML = "<strong>使用情况:</strong>";
+
+                            for (const [username, pid] of Object.entries(gpu.users)) {
+                                userInfo.innerHTML += `<span class="user-item">${username} (${pid})  </span>`;
+                            }
+
+                            gpuInfo.appendChild(userInfo);  // 将用户信息添加到GPU信息中
+                        }
+
+                        serverCard.appendChild(gpuInfo);
+                    });
+
+                    // 添加分割线
+                    add_bar(serverCard);
+                }
+
+
+                // 错误信息
+                if ('err_info' in serverData[key])
+                {
+                    // 分割线
+                    add_bar(serverCard);
+
+                    let errInfo = document.createElement('div');
+                    errInfo.classList.add('error-info');
+                    errInfo.innerHTML = '<strong>error info</strong><br>' + serverData[key].err_info;
+                    serverCard.appendChild(errInfo);
+                    // 分割线
+                    add_bar(serverCard);
+                }
+
+                // 删除最后的分割线
+                if (serverCard.lastElementChild && serverCard.lastElementChild.tagName === 'HR') {
+                    serverCard.removeChild(serverCard.lastElementChild);
+                }
+
+                serverDataContainer.appendChild(serverCard);
+            }
+        }
+
+        // 页面加载时获取数据并定时刷新
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchData();
+            setInterval(fetchData, 3000); // 每3秒刷新一次数据
+        });
+    </script>
+</body>
+</html>
